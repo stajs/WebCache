@@ -6,5 +6,8 @@
 		<authors>$author$</authors>
 		<description>$description$</description>
 		<projectUrl>https://github.com/stajs/WebCache/</projectUrl>
+		<dependencies>
+			<dependency id="FluentPath" version="1.0.0" />
+		</dependencies>
 	</metadata>
 </package>
