@@ -19,7 +19,8 @@ namespace WebCache
 		public CachedAsset(string virtualPath)
 		{
 			OriginalPath = virtualPath;
-			var originalFile = GetFile(virtualPath);
+			var originalFileSystemPath = HostingEnvironment.MapPath(virtualPath);
+			var originalFile = GetFile(originalFileSystemPath);
 			var hash = GetHash(originalFile);
 			File = CreateFile(originalFile, hash);
 			CachedPath = string.Format("{0}/{1}", virtualPath.Substring(0, virtualPath.LastIndexOf("/", StringComparison.Ordinal)), File.FileName);
@@ -27,15 +28,20 @@ namespace WebCache
 		
 		private Path CreateFile(Path file, string hash)
 		{
-			var newFileName = string.Format("{0}.{1}.webcache{2}", file.FileNameWithoutExtension, hash, file.Extension);
-			var newFile = file.Copy(file.Combine(file.DirectoryName, newFileName));
+			var applicationRoot = HostingEnvironment.ApplicationPhysicalPath;
+			var relativePath = file
+				.DirectoryName
+				.Split(new [] { applicationRoot }, 2, StringSplitOptions.None)
+				.Last();
+			var newFileName = string.Format("{0}.{1}{2}", file.FileNameWithoutExtension, hash, file.Extension);
+			var newFilePath = Path.Get(applicationRoot, "webcache", relativePath, newFileName);
+			var newFile = file.Copy(newFilePath);
+
 			return newFile;
 		}
 
-		private Path GetFile(string virtualPath)
+		private Path GetFile(string path)
 		{
-			var path = HostingEnvironment.MapPath(virtualPath);
-			
 			var file = Path.Get(path);
 
 			if (!file.Exists)

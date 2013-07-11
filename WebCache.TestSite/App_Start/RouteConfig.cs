@@ -12,6 +12,7 @@ namespace WebCache.TestSite
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			routes.IgnoreRoute("assets/{*pathInfo}");
 
 			routes.MapRoute(
 				 name: "Default",
