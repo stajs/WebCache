@@ -120,7 +120,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="assets\scripts\header.js" />
     <Content Include="assets\scripts\log.js" />
+    <Content Include="assets\styles\app.css">
+      <DependentUpon>app.less</DependentUpon>
+    </Content>
+    <Content Include="assets\styles\app.min.css">
+      <DependentUpon>app.less</DependentUpon>
+    </Content>
     <Content Include="assets\styles\main.css">
       <DependentUpon>main.less</DependentUpon>
     </Content>
@@ -151,6 +158,9 @@
       <Project>{3ae1cc4b-85cb-45be-a81e-35b6020fb272}</Project>
       <Name>WebCache</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\styles\app.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

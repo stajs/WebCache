@@ -73,7 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedAsset.cs" />
+    <Compile Include="Bundle.cs" />
+    <Compile Include="Asset.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

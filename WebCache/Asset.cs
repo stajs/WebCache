@@ -7,13 +7,13 @@ using Path = Fluent.IO.Path;
 
 namespace WebCache
 {
-	public class CachedAsset
+	public class Asset
 	{
 		public string OriginalPath { get; private set; }
 		public string CachedPath { get; private set; }
 		public Path File { get; private set; }
 
-		public CachedAsset(string virtualPath)
+		public Asset(string virtualPath)
 		{
 			OriginalPath = virtualPath;
 			var originalFileSystemPath = HostingEnvironment.MapPath(virtualPath);

@@ -12,8 +12,25 @@ namespace WebCache.TestSite
 	{
 		protected void Application_Start()
 		{
-			WebCacheConfig.Add("/assets/styles/main.min.css");
-			WebCacheConfig.Add("/assets/scripts/log.js");
+			WebCacheConfig.Bundles.Add(new Bundle
+			{
+				Name = "Header",
+				Assets = new List<Asset>
+				{
+					new Asset("/assets/styles/main.min.css"),
+					new Asset("/assets/styles/app.min.css"),
+					new Asset("/assets/scripts/header.js")
+				}
+			});
+
+			WebCacheConfig.Bundles.Add(new Bundle
+			{
+				Name = "EndBody",
+				Assets = new List<Asset>
+				{
+					new Asset("/assets/scripts/log.js")
+				}
+			});
 
 			AreaRegistration.RegisterAllAreas();
 

@@ -3,11 +3,11 @@
 <html>
 <head>
 	<title>WebCache</title>
-	@Html.RenderCss()
+	@Html.RenderBundle("Header")
 </head>
 <body>
 	<h1>WebCache</h1>
 	<a href="/">Request page again</a>
-	@Html.RenderJs()
+	@Html.RenderBundle("EndBody")
 </body>
 </html>
