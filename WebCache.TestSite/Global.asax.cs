@@ -12,7 +12,7 @@ namespace WebCache.TestSite
 	{
 		protected void Application_Start()
 		{
-			Config.Add("/assets/styles/main.min.css");
+			WebCacheConfig.Add("/assets/styles/main.min.css");
 
 			AreaRegistration.RegisterAllAreas();
 
