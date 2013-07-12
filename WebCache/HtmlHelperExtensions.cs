@@ -14,7 +14,7 @@ namespace WebCache
 		{
 			var sb = new StringBuilder();
 
-			foreach(var asset in WebCacheConfig.Assets)
+			foreach(var asset in WebCacheConfig.CachedAssets)
 				sb.AppendFormat("<link rel=\"stylesheet\" href=\"{0}\" />\n", asset.CachedPath);
 
 			return new HtmlString(sb.ToString());
