@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -38,8 +39,9 @@ namespace WebCache
 
 			SetHeaders(response);
 
+			response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
 			response.ContentType = GetContentType(file.Extension);
-			response.WriteFile(file.FullPath);
+			response.TransmitFile(file.FullPath);
 		}
 
 		private void SetHeaders(HttpResponse response)
@@ -51,6 +53,8 @@ namespace WebCache
 			var lastModified = now.AddMonths(-1);
 
 			response.ClearHeaders();
+			response.AppendHeader("Content-Encoding", "gzip");
+			response.AppendHeader("Vary", "Accept-Encoding");
 			response.AppendHeader("Last-Modified", lastModified.ToHttpDate());
 			response.AppendHeader("Expires", expires.ToHttpDate());
 			response.AppendHeader("Cache-Control", "public");
