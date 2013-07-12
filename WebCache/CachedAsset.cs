@@ -42,7 +42,7 @@ namespace WebCache
 			var file = Path.Get(path);
 
 			if (!file.Exists)
-				throw new FileNotFoundException();
+				throw new FileNotFoundException("Could not find file to cache: " + path);
 
 			return file;
 		}

@@ -13,6 +13,7 @@ namespace WebCache.TestSite
 		protected void Application_Start()
 		{
 			WebCacheConfig.Add("/assets/styles/main.min.css");
+			WebCacheConfig.Add("/assets/scripts/log.js");
 
 			AreaRegistration.RegisterAllAreas();
 

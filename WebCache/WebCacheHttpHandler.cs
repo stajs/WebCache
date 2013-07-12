@@ -26,6 +26,8 @@ namespace WebCache
 				return;
 			}
 
+			var file = cachedAsset.File;
+
 			// TODO: recreate file?
 			if (!cachedAsset.File.Exists)
 			{
@@ -34,8 +36,24 @@ namespace WebCache
 				return;
 			}
 
-			response.ContentType = "text/css";
-			response.WriteFile(cachedAsset.File.FullPath);
+			response.ContentType = GetContentType(file.Extension);
+			response.WriteFile(file.FullPath);
+		}
+
+		private string GetContentType(string fileExtension)
+		{
+			switch (fileExtension)
+			{
+				case ".css":
+					return "text/css";
+
+				// http://stackoverflow.com/questions/9664282/difference-between-application-x-javascript-and-text-javascript-content-types
+				case ".js":
+					return "application/javascript";
+
+				default:
+					return "application/unknown";
+			}
 		}
 	}
 }
