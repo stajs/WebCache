@@ -36,8 +36,24 @@ namespace WebCache
 				return;
 			}
 
+			SetHeaders(response);
+
 			response.ContentType = GetContentType(file.Extension);
 			response.WriteFile(file.FullPath);
+		}
+
+		private void SetHeaders(HttpResponse response)
+		{
+			// https://developers.google.com/speed/docs/best-practices/caching#LeverageBrowserCaching
+
+			var now = DateTime.UtcNow;
+			var expires = now.AddYears(1);
+			var lastModified = now.AddMonths(-1);
+
+			response.ClearHeaders();
+			response.AppendHeader("Last-Modified", lastModified.ToHttpDate());
+			response.AppendHeader("Expires", expires.ToHttpDate());
+			response.AppendHeader("Cache-Control", "public");
 		}
 
 		private string GetContentType(string fileExtension)
