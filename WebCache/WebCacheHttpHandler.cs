@@ -18,8 +18,8 @@ namespace WebCache
 			var response = context.Response;
 			var path = context.Request.Path;
 
-			var cachedAsset = WebCacheConfig.Bundles
-				.SelectMany(b => b.Assets)
+			var cachedAsset = WebCache.Bundles
+				.SelectMany(b => b.Value)
 				.SingleOrDefault(a => a.CachedPath == path);
 
 			if (cachedAsset == null)

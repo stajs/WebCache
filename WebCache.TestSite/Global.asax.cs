@@ -12,25 +12,26 @@ namespace WebCache.TestSite
 	{
 		protected void Application_Start()
 		{
-			WebCacheConfig.Bundles.Add(new Bundle
-			{
-				Name = "Header",
-				Assets = new List<Asset>
+			WebCache.Register(
+				new Bundle
 				{
-					new Asset("/assets/styles/main.min.css"),
-					new Asset("/assets/styles/app.min.css"),
-					new Asset("/assets/scripts/header.js")
-				}
-			});
-
-			WebCacheConfig.Bundles.Add(new Bundle
-			{
-				Name = "EndBody",
-				Assets = new List<Asset>
+					Name = "Header",
+					Assets = new List<Asset>
+					{
+						new Asset("/assets/styles/main.min.css"),
+						new Asset("/assets/styles/app.min.css"),
+						new Asset("/assets/scripts/header.js")
+					}
+				},
+				new Bundle
 				{
-					new Asset("/assets/scripts/log.js")
+					Name = "Body",
+					Assets = new List<Asset>
+					{
+						new Asset("/assets/scripts/log.js")
+					}
 				}
-			});
+			);
 
 			AreaRegistration.RegisterAllAreas();
 
