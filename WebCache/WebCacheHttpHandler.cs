@@ -20,7 +20,7 @@ namespace WebCache
 
 			var cachedAsset = WebCache.Bundles
 				.SelectMany(b => b.Value)
-				.SingleOrDefault(a => a.CachedPath == path);
+				.SingleOrDefault(a => a.CachedVirtualPath == path);
 
 			if (cachedAsset == null)
 			{
@@ -31,7 +31,6 @@ namespace WebCache
 
 			var file = cachedAsset.File;
 
-			// TODO: recreate file?
 			if (!cachedAsset.File.Exists)
 			{
 				response.StatusCode = (int)HttpStatusCode.NotFound;

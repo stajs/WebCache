@@ -23,10 +23,10 @@ namespace WebCache
 			var sb = new StringBuilder();
 
 			foreach (var asset in bundle.Where(a => a.File.Extension == ".css"))
-				sb.AppendFormat("<link rel=\"stylesheet\" href=\"{0}\" />\n", asset.CachedPath);
+				sb.AppendFormat("<link rel=\"stylesheet\" href=\"{0}\" />\n", asset.CachedVirtualPath);
 
 			foreach (var asset in bundle.Where(a => a.File.Extension == ".js"))
-				sb.AppendFormat("<script src=\"{0}\" /></script>\n", asset.CachedPath);
+				sb.AppendFormat("<script src=\"{0}\" /></script>\n", asset.CachedVirtualPath);
 
 			return new HtmlString(sb.ToString());
 		}
