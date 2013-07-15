@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Webcache by stajs</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/stajs/WebCache">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/stajs/WebCache/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/stajs/WebCache/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Webcache</h1>
+          <p>Proxy-friendly web caching.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/stajs">stajs</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="webcache" class="anchor" href="#webcache"><span class="octicon octicon-link"></span></a>WebCache</h1>
+
+<p>Proxy-friendly web caching.</p>
+
+<p>Available on NuGet: <a href="https://nuget.org/packages/WebCache/">https://nuget.org/packages/WebCache/</a></p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Register assets on application start:</p>
+
+<div class="highlight"><pre><span class="n">WebCache</span><span class="p">.</span><span class="n">Register</span><span class="p">(</span>
+    <span class="k">new</span> <span class="n">Bundle</span>
+    <span class="p">{</span>
+        <span class="n">Name</span> <span class="p">=</span> <span class="s">"Header"</span><span class="p">,</span>
+        <span class="n">Assets</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Asset</span><span class="p">&gt;</span>
+        <span class="p">{</span>
+            <span class="k">new</span> <span class="nf">Asset</span><span class="p">(</span><span class="s">"/assets/styles/main.min.css"</span><span class="p">),</span>
+            <span class="k">new</span> <span class="nf">Asset</span><span class="p">(</span><span class="s">"/assets/styles/app.min.css"</span><span class="p">),</span>
+            <span class="k">new</span> <span class="nf">Asset</span><span class="p">(</span><span class="s">"/assets/scripts/header.js"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="k">new</span> <span class="n">Bundle</span>
+    <span class="p">{</span>
+        <span class="n">Name</span> <span class="p">=</span> <span class="s">"Body"</span><span class="p">,</span>
+        <span class="n">Assets</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Asset</span><span class="p">&gt;</span>
+        <span class="p">{</span>
+            <span class="k">new</span> <span class="nf">Asset</span><span class="p">(</span><span class="s">"/assets/scripts/log.js"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+
+<p>Render bundles in your HTML:</p>
+
+<div class="highlight"><pre>@using WebCache
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>WebCache<span class="nt">&lt;/title&gt;</span>
+    @Html.RenderBundle("Header")
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>WebCache<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/"</span><span class="nt">&gt;</span>Request page again<span class="nt">&lt;/a&gt;</span>
+    @Html.RenderBundle("Body")
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<p>Which produces:</p>
+
+<div class="highlight"><pre>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>WebCache<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/assets/styles/main.min.1d343cdc458745e8b092421272c3acd2.webcache.css"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/assets/styles/app.min.aaf81fa9b555358807d986b3b225a06b.webcache.css"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/scripts/header.d0844ec6fc5c98cda897d740b3840337.webcache.js"</span> <span class="nt">/&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>WebCache<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/"</span><span class="nt">&gt;</span>Request page again<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/scripts/log.37309cb1fc49681c1c20becff68312c6.webcache.js"</span> <span class="nt">/&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<p>Add the HttpHandler to your web.config:</p>
+
+<div class="highlight"><pre><span class="nt">&lt;system.webServer&gt;</span>
+    <span class="nt">&lt;handlers&gt;</span>
+        <span class="nt">&lt;add</span> <span class="na">name=</span><span class="s">"WebCache CSS"</span> <span class="na">verb=</span><span class="s">"*"</span> <span class="na">path=</span><span class="s">"*.webcache.css"</span> <span class="na">type=</span><span class="s">"WebCache.WebCacheHttpHandler"</span> <span class="na">preCondition=</span><span class="s">"managedHandler"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;add</span> <span class="na">name=</span><span class="s">"WebCache JS"</span> <span class="na">verb=</span><span class="s">"*"</span> <span class="na">path=</span><span class="s">"*.webcache.js"</span> <span class="na">type=</span><span class="s">"WebCache.WebCacheHttpHandler"</span> <span class="na">preCondition=</span><span class="s">"managedHandler"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/handlers&gt;</span>
+<span class="nt">&lt;/system.webServer&gt;</span>
+</pre></div>
+
+<p>Kick back and relax, knowing your assests are sent compressed with long-lived cache headers.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
