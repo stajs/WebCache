@@ -82,7 +82,9 @@
     <Compile Include="WebCacheHttpHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="content\Web.config.uninstall.xdt" />
     <None Include="packages.config" />
+    <None Include="content\Web.config.install.xdt" />
     <None Include="WebCache.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

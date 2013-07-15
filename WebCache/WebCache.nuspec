@@ -10,4 +10,7 @@
 			<dependency id="FluentPath" version="1.0.0" />
 		</dependencies>
 	</metadata>
+	<files>
+		<file src="content\*" target="content" />
+	</files>
 </package>

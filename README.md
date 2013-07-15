@@ -69,7 +69,7 @@ Which produces:
 </html>
 ```
 
-Add the HttpHandler to your web.config:
+Add the HttpHandler to your web.config (added automatically by NuGet package install):
 
 ```xml
 <system.webServer>
