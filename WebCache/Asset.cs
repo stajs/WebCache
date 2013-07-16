@@ -9,6 +9,8 @@ namespace WebCache
 {
 	public class Asset
 	{
+		internal static string CacheFolderName = "webcache";
+
 		public string OriginalVirtualPath { get; private set; }
 		public string CachedVirtualPath { get; private set; }
 		public Path File { get; private set; }
@@ -31,7 +33,7 @@ namespace WebCache
 				.Split(new [] { applicationRoot }, 2, StringSplitOptions.None)
 				.Last();
 			var newFileName = string.Format("{0}.{1}.webcache{2}", file.FileNameWithoutExtension, hash, file.Extension);
-			var newFilePath = Path.Get(applicationRoot, "webcache", relativePath, newFileName);
+			var newFilePath = Path.Get(applicationRoot, CacheFolderName, relativePath, newFileName);
 
 			Path newFile;
 			try
