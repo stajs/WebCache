@@ -2,8 +2,7 @@
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
 	<system.webServer>
 		<handlers>
-			<add name="WebCache CSS" verb="*" path="*.webcache.css" type="WebCache.WebCacheHttpHandler" preCondition="managedHandler" xdt:Transform="Insert" />
-			<add name="WebCache JS" verb="*" path="*.webcache.js" type="WebCache.WebCacheHttpHandler" preCondition="managedHandler" xdt:Transform="Insert" />
+			<add name="WebCache" verb="*" path="*.webcache.*" type="WebCache.WebCacheHttpHandler" preCondition="managedHandler" xdt:Transform="Insert" />
 		</handlers>
 	</system.webServer>
 </configuration>
