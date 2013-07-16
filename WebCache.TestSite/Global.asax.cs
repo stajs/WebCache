@@ -12,6 +12,7 @@ namespace WebCache.TestSite
 	{
 		protected void Application_Start()
 		{
+			WebCache.TryDeleteCacheFolder();
 			WebCache.Register(
 				new Bundle
 				{
