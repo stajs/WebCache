@@ -4,6 +4,8 @@ Proxy-friendly web caching.
 
 Available on NuGet: https://nuget.org/packages/WebCache/
 
+_Note:_ There is currently a problem with uploading NuGet packages. Hope to have this resolved soon.
+
 ## Usage
 
 Register assets on application start:
@@ -74,8 +76,7 @@ Add the HttpHandler to your web.config (added automatically by NuGet package ins
 ```xml
 <system.webServer>
 	<handlers>
-		<add name="WebCache CSS" verb="*" path="*.webcache.css" type="WebCache.WebCacheHttpHandler" preCondition="managedHandler"/>
-		<add name="WebCache JS" verb="*" path="*.webcache.js" type="WebCache.WebCacheHttpHandler" preCondition="managedHandler"/>
+		<add name="WebCache" verb="*" path="*.webcache.*" type="WebCache.WebCacheHttpHandler" preCondition="managedHandler"/>
 	</handlers>
 </system.webServer>
 ```
