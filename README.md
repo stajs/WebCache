@@ -4,8 +4,6 @@ Proxy-friendly web caching.
 
 Available on NuGet: https://nuget.org/packages/WebCache/
 
-_Note:_ There is currently a problem with uploading NuGet packages. Hope to have this resolved soon.
-
 ## Usage
 
 Register assets on application start:
@@ -71,7 +69,7 @@ Which produces:
 </html>
 ```
 
-Add the HttpHandler to your web.config (added automatically by NuGet package install):
+Add the HttpHandler to your web.config:
 
 ```xml
 <system.webServer>
@@ -82,5 +80,3 @@ Add the HttpHandler to your web.config (added automatically by NuGet package ins
 ```
 
 Kick back and relax, knowing your assests are sent compressed with long-lived cache headers.
-
-
