@@ -1,14 +1,12 @@
 # WebCache
 
-Static asset caching for websites.
-
 ### Faster site. Happier users.
 
-Proxy-friendly web caching.
-
-Available on NuGet: https://nuget.org/packages/WebCache/
-
-Documentation is a work in progress, but you can view the [annotated source](http://stajs.github.io/WebCache/docs/webcache.html).
+- Static asset caching for websites.
+	- Take full advantage of browser and proxy caching.
+	- Built-in cache-busting: don't ask users to "just refresh the page".
+- Available on NuGet: https://nuget.org/packages/WebCache/
+- Documentation is a work in progress, but you can view the [annotated source](http://stajs.github.io/WebCache/docs/webcache.html).
 
 ## Usage
 
