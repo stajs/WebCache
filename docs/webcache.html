@@ -1,4 +1,4 @@
-<!DOCTYPE html />
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -50,7 +50,54 @@
 							<div class="pilwrap">
 								<a class="pilcrow" href="#section_1">&#182;</a>
 							</div>
-							
+							<p>Static class for configuring WebCache.</p>
+
+<h2>Usage</h2>
+
+<p>All calls to configure WebCache should be made during the start up of your application (i.e. <code>Application_Start()</code> in your <strong>Global.asax</strong>).</p>
+
+<p>To <em>try</em> and delete the cache folder:</p>
+
+<pre><code>WebCache.TryDeleteCacheFolder();
+</code></pre>
+
+<p>To register <code>Bundle</code>'s of <code>Asset</code>'s:</p>
+
+<pre><code>WebCache.Register(
+    new Bundle
+    {
+        Name = "Header",
+        Assets = new List&lt;Asset&gt;
+        {
+            new Asset("/assets/styles/main.min.css"),
+            new Asset("/assets/styles/app.min.css"),
+            new Asset("/assets/scripts/header.js")
+        }
+    },
+    new Bundle
+    {
+        Name = "Body",
+        Assets = new List&lt;Asset&gt;
+        {
+            new Asset("/assets/scripts/log.js")
+        }
+    }
+);
+</code></pre>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_2">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_2">&#182;</a>
+							</div>
+							<p></p>
+
 						</td>
 						<td class="code">
 							<pre><code class='prettyprint'>using System;
@@ -66,18 +113,59 @@ namespace WebCache
 	public class WebCache
 	{
 		private static Dictionary&lt;string, List&lt;Asset&gt;&gt; _bundles = new Dictionary&lt;string, List&lt;Asset&gt;&gt;();
-		public static ReadOnlyDictionary&lt;string, List&lt;Asset&gt;&gt; Bundles
+
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_3">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_3">&#182;</a>
+							</div>
+							<p>It is possible to directly add items to a static dictionary, so expose a read-only copy.</p>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>		public static ReadOnlyDictionary&lt;string, List&lt;Asset&gt;&gt; Bundles
 		{
 			get { return new ReadOnlyDictionary&lt;string, List&lt;Asset&gt;&gt;(_bundles); }
 		}
 
-		public static void Register(params Bundle[] bundles)
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_4">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_4">&#182;</a>
+							</div>
+							<p>Helper method to register bundles since there isn't a public setter for the dictionary.</p>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>		public static void Register(params Bundle[] bundles)
 		{
 			foreach (var bundle in bundles)
 				_bundles.Add(bundle.Name, bundle.Assets);
 		}
 
-		public static void TryDeleteCacheFolder()
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_5">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_5">&#182;</a>
+							</div>
+							<p>Trying to recursively delete a folder can fail with an IOException (<code>The directory is not empty</code>) for
+a number of reasons, including: locked files, permissions, read-only files. An easy way to reproduce
+is to have a <a href="http://stackoverflow.com/questions/4102638/directoryinfo-deletetrue-doesnt-delete-when-folder-structure-is-open-in-windo">subdirectory open in Windows Explorer while deleting the parent</a>
+I don't like any of the hack-arounds (although the <a href="http://stackoverflow.com/a/14933880">DeleteRecursivelyWithMagicDust()</a> is amusing).
+I'm almost tempted to implement <a href="http://www.timstall.com/2009/02/killing-file-handles-but-not-process.html">a Kill 'em all</a>...          </p>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>		public static void TryDeleteCacheFolder()
 		{
 			var applicationRoot = HostingEnvironment.ApplicationPhysicalPath;
 			var cacheFolder = Path.Get(applicationRoot, Asset.CacheFolderName);
@@ -85,23 +173,20 @@ namespace WebCache
 			if (!cacheFolder.Exists)
 				return;
 
-			/* Trying to recurively delete a folder can fail with an IOException (&quot;The directory is not empty&quot;) for
-			 * a number of reasons, including: locked files, permissions, read-only files. An easy way to reproduce
-			 * is to have a subdirectory open in Windows Explorer while deleting the parent:
-			 * 
-			 *	- http://stackoverflow.com/questions/4102638/directoryinfo-deletetrue-doesnt-delete-when-folder-structure-is-open-in-windo
-			 *		
-			 * I don&#39;t like any of the hack-arounds out there (although the DeleteRecursivelyWithMagicDust() is amusing):
-			 * 
-			 * - http://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
-			 * 
-			 * I&#39;m almost tempted to implement this:
-			 *  
-			 * - http://www.timstall.com/2009/02/killing-file-handles-but-not-process.html
-			 */
-			
 			try { cacheFolder.Delete(recursive: true); }
-			catch { /* Oh well, better luck next time... */ }
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_6">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_6">&#182;</a>
+							</div>
+							<p>Oh well, better luck next time...</p>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>			catch {  }
 		}
 	}
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html />
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -50,7 +50,8 @@
 							<div class="pilwrap">
 								<a class="pilcrow" href="#section_1">&#182;</a>
 							</div>
-							
+							<p>TODO: docs</p>
+
 						</td>
 						<td class="code">
 							<pre><code class='prettyprint'>using System;
@@ -64,7 +65,7 @@ namespace WebCache
 {
 	public class Asset
 	{
-		internal static string CacheFolderName = &quot;webcache&quot;;
+		internal static readonly string CacheFolderName = &quot;webcache&quot;;
 
 		public string OriginalVirtualPath { get; private set; }
 		public string CachedVirtualPath { get; private set; }

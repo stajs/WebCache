@@ -1,4 +1,4 @@
-<!DOCTYPE html />
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -50,7 +50,8 @@
 							<div class="pilwrap">
 								<a class="pilcrow" href="#section_1">&#182;</a>
 							</div>
-							
+							<p><code>DateTime</code> extension methods.</p>
+
 						</td>
 						<td class="code">
 							<pre><code class='prettyprint'>using System;
@@ -63,7 +64,19 @@ namespace WebCache
 {
 	public static class DateTimeExtensions
 	{
-		public static string ToHttpDate(this DateTime date)
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_2">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_2">&#182;</a>
+							</div>
+							<p>Generate an "<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1">HTTP date</a>" from a <code>DateTime</code>.</p>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>		public static string ToHttpDate(this DateTime date)
 		{
 			return date.ToString(&quot;ddd, dd MMM yyyy HH:mm:ss &#39;GMT&#39;&quot;);
 		}

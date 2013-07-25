@@ -1,4 +1,4 @@
-<!DOCTYPE html />
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -50,7 +50,9 @@
 							<div class="pilwrap">
 								<a class="pilcrow" href="#section_1">&#182;</a>
 							</div>
-							
+							<p>HttpHandler to look for cached assets, and if they exist, send them
+compressed with long-lived HTTP cache headers.</p>
+
 						</td>
 						<td class="code">
 							<pre><code class='prettyprint'>using System;
@@ -94,14 +96,7 @@ namespace WebCache
 			}
 
 			SetHeaders(response);
-
-			response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
 			response.ContentType = GetContentType(file.Extension);
-			response.TransmitFile(file.FullPath);
-		}
-
-		private void SetHeaders(HttpResponse response)
-		{
 </code></pre>
 						</td>
 					</tr>
@@ -110,11 +105,40 @@ namespace WebCache
 							<div class="pilwrap">
 								<a class="pilcrow" href="#section_2">&#182;</a>
 							</div>
-							<p>https://developers.google.com/speed/docs/best-practices/caching#LeverageBrowserCaching</p>
+							<p>TODO: <a href="https://github.com/stajs/WebCache/issues/10">Add support for content negotiation</a></p>
 
 						</td>
 						<td class="code">
-							<pre><code class='prettyprint'>
+							<pre><code class='prettyprint'>			response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_3">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_3">&#182;</a>
+							</div>
+							<p><code>TransmitFile()</code> is awesome and doesn't buffer the file in memory. This is the reason cached assets are written to disk.</p>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>			response.TransmitFile(file.FullPath);
+		}
+
+</code></pre>
+						</td>
+					</tr>
+					<tr id="section_4">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_4">&#182;</a>
+							</div>
+							<p>Based on <a href="https://developers.google.com/speed/docs/best-practices/caching#LeverageBrowserCaching">Google-suggested best practice</a>.</p>
+
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>		private void SetHeaders(HttpResponse response)
+		{
 			var now = DateTime.UtcNow;
 			var expires = now.AddYears(1);
 			var lastModified = now.AddMonths(-1);
@@ -137,17 +161,17 @@ namespace WebCache
 </code></pre>
 						</td>
 					</tr>
-					<tr id="section_3">
+					<tr id="section_5">
 						<td class="docs">
 							<div class="pilwrap">
-								<a class="pilcrow" href="#section_3">&#182;</a>
+								<a class="pilcrow" href="#section_5">&#182;</a>
 							</div>
-							<p>http://stackoverflow.com/questions/9664282/difference-between-application-x-javascript-and-text-javascript-content-types</p>
+							<p>There are <a href="http://stackoverflow.com/a/9664327">two other obsoleted content types for JavaScript</a>.</p>
 
 						</td>
 						<td class="code">
-							<pre><code class='prettyprint'>				case &quot;.js&quot;:
-					return &quot;application/javascript&quot;;
+							<pre><code class='prettyprint'>				case &quot;.js&quot;:					
+					return &quot;application/javascript&quot;; 
 
 				default:
 					return &quot;application/unknown&quot;;
