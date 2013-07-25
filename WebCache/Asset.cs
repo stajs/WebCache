@@ -1,4 +1,5 @@
-﻿using System;
+﻿// TODO: docs
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -9,7 +10,7 @@ namespace WebCache
 {
 	public class Asset
 	{
-		internal static string CacheFolderName = "webcache";
+		internal static readonly string CacheFolderName = "webcache";
 
 		public string OriginalVirtualPath { get; private set; }
 		public string CachedVirtualPath { get; private set; }

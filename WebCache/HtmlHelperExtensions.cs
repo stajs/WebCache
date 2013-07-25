@@ -1,4 +1,5 @@
-﻿using System;
+﻿// `HtmlHelper` extension methods.
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace WebCache
 {
+	// Generate `<script>` or `<link>` tags for the assets in a bundle.
 	public static class HtmlHelperExtensions
 	{
 		public static IHtmlString RenderBundle(this HtmlHelper helper, string name)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// HttpHandler to look for cached assets, and if they exist, send them
+// compressed with long-lived HTTP cache headers.
+using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
@@ -39,16 +41,16 @@ namespace WebCache
 			}
 
 			SetHeaders(response);
-
-			response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
 			response.ContentType = GetContentType(file.Extension);
+			// TODO: [Add support for content negotiation](https://github.com/stajs/WebCache/issues/10)
+			response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
+			// `TransmitFile()` is awesome and doesn't buffer the file in memory. This is the reason cached assets are written to disk.
 			response.TransmitFile(file.FullPath);
 		}
 
+		// Based on [Google-suggested best practice](https://developers.google.com/speed/docs/best-practices/caching#LeverageBrowserCaching).
 		private void SetHeaders(HttpResponse response)
 		{
-			// https://developers.google.com/speed/docs/best-practices/caching#LeverageBrowserCaching
-
 			var now = DateTime.UtcNow;
 			var expires = now.AddYears(1);
 			var lastModified = now.AddMonths(-1);
@@ -68,9 +70,9 @@ namespace WebCache
 				case ".css":
 					return "text/css";
 
-				// http://stackoverflow.com/questions/9664282/difference-between-application-x-javascript-and-text-javascript-content-types
-				case ".js":
-					return "application/javascript";
+				// There are [two other obsoleted content types for JavaScript](http://stackoverflow.com/a/9664327).
+				case ".js":					
+					return "application/javascript"; 
 
 				default:
 					return "application/unknown";
