@@ -1,0 +1,115 @@
+<!DOCTYPE html />
+
+<html>
+<head>
+	<title>WebCache.cs</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link href="nocco.css" rel="stylesheet" media="all" type="text/css" />
+	<script src="prettify.js" type="text/javascript"></script>
+</head>
+<body onload="prettyPrint()">
+	<div id="container">
+		<div id="background"></div>
+			<div id="jump_to">
+				Jump To &hellip;
+				<div id="jump_wrapper">
+					<div id="jump_page">
+							<a class="source" href="asset.html">
+								Asset.cs
+							</a>
+							<a class="source" href="bundle.html">
+								Bundle.cs
+							</a>
+							<a class="source" href="datetimeextensions.html">
+								DateTimeExtensions.cs
+							</a>
+							<a class="source" href="htmlhelperextensions.html">
+								HtmlHelperExtensions.cs
+							</a>
+							<a class="source" href="webcache.html">
+								WebCache.cs
+							</a>
+							<a class="source" href="webcachehttphandler.html">
+								WebCacheHttpHandler.cs
+							</a>
+					</div>
+				</div>
+			</div>
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="docs">
+						<h1>WebCache.cs</h1>
+					</th>
+					<th class="code"></th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr id="section_1">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_1">&#182;</a>
+							</div>
+							
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text;
+using System.Web;
+using System.Web.Hosting;
+using Fluent.IO;
+
+namespace WebCache
+{
+	public class WebCache
+	{
+		private static Dictionary&lt;string, List&lt;Asset&gt;&gt; _bundles = new Dictionary&lt;string, List&lt;Asset&gt;&gt;();
+		public static ReadOnlyDictionary&lt;string, List&lt;Asset&gt;&gt; Bundles
+		{
+			get { return new ReadOnlyDictionary&lt;string, List&lt;Asset&gt;&gt;(_bundles); }
+		}
+
+		public static void Register(params Bundle[] bundles)
+		{
+			foreach (var bundle in bundles)
+				_bundles.Add(bundle.Name, bundle.Assets);
+		}
+
+		public static void TryDeleteCacheFolder()
+		{
+			var applicationRoot = HostingEnvironment.ApplicationPhysicalPath;
+			var cacheFolder = Path.Get(applicationRoot, Asset.CacheFolderName);
+
+			if (!cacheFolder.Exists)
+				return;
+
+			/* Trying to recurively delete a folder can fail with an IOException (&quot;The directory is not empty&quot;) for
+			 * a number of reasons, including: locked files, permissions, read-only files. An easy way to reproduce
+			 * is to have a subdirectory open in Windows Explorer while deleting the parent:
+			 * 
+			 *	- http://stackoverflow.com/questions/4102638/directoryinfo-deletetrue-doesnt-delete-when-folder-structure-is-open-in-windo
+			 *		
+			 * I don&#39;t like any of the hack-arounds out there (although the DeleteRecursivelyWithMagicDust() is amusing):
+			 * 
+			 * - http://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
+			 * 
+			 * I&#39;m almost tempted to implement this:
+			 *  
+			 * - http://www.timstall.com/2009/02/killing-file-handles-but-not-process.html
+			 */
+			
+			try { cacheFolder.Delete(recursive: true); }
+			catch { /* Oh well, better luck next time... */ }
+		}
+	}
+}
+</code></pre>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

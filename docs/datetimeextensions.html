@@ -1,0 +1,79 @@
+<!DOCTYPE html />
+
+<html>
+<head>
+	<title>DateTimeExtensions.cs</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link href="nocco.css" rel="stylesheet" media="all" type="text/css" />
+	<script src="prettify.js" type="text/javascript"></script>
+</head>
+<body onload="prettyPrint()">
+	<div id="container">
+		<div id="background"></div>
+			<div id="jump_to">
+				Jump To &hellip;
+				<div id="jump_wrapper">
+					<div id="jump_page">
+							<a class="source" href="asset.html">
+								Asset.cs
+							</a>
+							<a class="source" href="bundle.html">
+								Bundle.cs
+							</a>
+							<a class="source" href="datetimeextensions.html">
+								DateTimeExtensions.cs
+							</a>
+							<a class="source" href="htmlhelperextensions.html">
+								HtmlHelperExtensions.cs
+							</a>
+							<a class="source" href="webcache.html">
+								WebCache.cs
+							</a>
+							<a class="source" href="webcachehttphandler.html">
+								WebCacheHttpHandler.cs
+							</a>
+					</div>
+				</div>
+			</div>
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="docs">
+						<h1>DateTimeExtensions.cs</h1>
+					</th>
+					<th class="code"></th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr id="section_1">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_1">&#182;</a>
+							</div>
+							
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WebCache
+{
+	public static class DateTimeExtensions
+	{
+		public static string ToHttpDate(this DateTime date)
+		{
+			return date.ToString(&quot;ddd, dd MMM yyyy HH:mm:ss &#39;GMT&#39;&quot;);
+		}
+	}
+}
+</code></pre>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

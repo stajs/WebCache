@@ -1,0 +1,138 @@
+<!DOCTYPE html />
+
+<html>
+<head>
+	<title>Asset.cs</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link href="nocco.css" rel="stylesheet" media="all" type="text/css" />
+	<script src="prettify.js" type="text/javascript"></script>
+</head>
+<body onload="prettyPrint()">
+	<div id="container">
+		<div id="background"></div>
+			<div id="jump_to">
+				Jump To &hellip;
+				<div id="jump_wrapper">
+					<div id="jump_page">
+							<a class="source" href="asset.html">
+								Asset.cs
+							</a>
+							<a class="source" href="bundle.html">
+								Bundle.cs
+							</a>
+							<a class="source" href="datetimeextensions.html">
+								DateTimeExtensions.cs
+							</a>
+							<a class="source" href="htmlhelperextensions.html">
+								HtmlHelperExtensions.cs
+							</a>
+							<a class="source" href="webcache.html">
+								WebCache.cs
+							</a>
+							<a class="source" href="webcachehttphandler.html">
+								WebCacheHttpHandler.cs
+							</a>
+					</div>
+				</div>
+			</div>
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="docs">
+						<h1>Asset.cs</h1>
+					</th>
+					<th class="code"></th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr id="section_1">
+						<td class="docs">
+							<div class="pilwrap">
+								<a class="pilcrow" href="#section_1">&#182;</a>
+							</div>
+							
+						</td>
+						<td class="code">
+							<pre><code class='prettyprint'>using System;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Web.Hosting;
+using Path = Fluent.IO.Path;
+
+namespace WebCache
+{
+	public class Asset
+	{
+		internal static string CacheFolderName = &quot;webcache&quot;;
+
+		public string OriginalVirtualPath { get; private set; }
+		public string CachedVirtualPath { get; private set; }
+		public Path File { get; private set; }
+
+		public Asset(string virtualPath)
+		{
+			OriginalVirtualPath = virtualPath;
+			var originalFilePath = HostingEnvironment.MapPath(virtualPath);
+			var originalFile = GetFile(originalFilePath);
+			var hash = GetHash(originalFile);
+			File = CreateFile(originalFile, hash);
+			CachedVirtualPath = string.Format(&quot;{0}/{1}&quot;, virtualPath.Substring(0, virtualPath.LastIndexOf(&quot;/&quot;, StringComparison.Ordinal)), File.FileName);
+		}
+		
+		private Path CreateFile(Path file, string hash)
+		{
+			var applicationRoot = HostingEnvironment.ApplicationPhysicalPath;
+			var relativePath = file
+				.DirectoryName
+				.Split(new [] { applicationRoot }, 2, StringSplitOptions.None)
+				.Last();
+			var newFileName = string.Format(&quot;{0}.{1}.webcache{2}&quot;, file.FileNameWithoutExtension, hash, file.Extension);
+			var newFilePath = Path.Get(applicationRoot, CacheFolderName, relativePath, newFileName);
+
+			Path newFile;
+			try
+			{
+				newFile = file.Copy(newFilePath);
+			}
+			catch (Exception exception)
+			{
+				throw new IOException(&quot;Could not copy file to: &quot; + newFilePath.FullPath, exception);
+			}
+
+			return newFile;
+		}
+
+		private Path GetFile(string path)
+		{
+			var file = Path.Get(path);
+
+			if (!file.Exists)
+				throw new FileNotFoundException(&quot;Could not find file to cache: &quot; + path);
+
+			return file;
+		}
+
+		private string GetHash(Path file)
+		{
+			byte[] bytes;
+
+			using (var md5 = MD5.Create())
+			using (var stream = System.IO.File.OpenRead(file.FullPath))
+				bytes = md5.ComputeHash(stream);
+
+			return BitConverter
+				.ToString(bytes)
+				.Replace(&quot;-&quot;, string.Empty)
+				.ToLower();
+		}
+	}
+}
+</code></pre>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
